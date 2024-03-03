@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nessie Game</title>
+</head>
+<body>
+
+    
+    <div style="display: flex; justify-content: center; height: 100%;">
+        <img src="/Assets/BannerTransparent.png" style="width: 850px; height: 180px; object-fit: contain; position: absolute; top: 0px;">
+        
+        <div id="parentImage" style="width: 1050px; height: 600px; margin-top: 150px; display: flex; justify-content: center; align-items: center; align-content: flex-start;">
+            <img id="mainImage" src="/Assets/Loading.gif" style="object-fit: cover; border: solid #2E323E 0px; ">
+            
+            <div id="levelsMenu" style="display: none; width: 1050px; height: 600px; flex-direction: row; flex-wrap: wrap;">
+                <!-- <div class="levelBtn" title="menu" onclick="toggleMenu()" style="width: 75px; height: 75px; border-radius: 20px; cursor: pointer; margin-left: 20px; margin-top: 20px;">
+                    <h1 style="color: white; text-align: center;">1</h1>
+                </div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="sideBtns" title="random" onclick="location.href = '/' " style="width: 75px; height: 75px; position: absolute; left: 60px; top: 350px; display: flex; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer;">
+            <img src="/Assets/RefreshIcon.png" style="width: 50px; height: 50px; left: 30px; top: 350px;">
+        </div>
+
+        <div class="sideBtns" title="menu" onclick="toggleMenu()" style="width: 75px; height: 75px; position: absolute; left: 60px; top: 450px; display: flex; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer;">
+            <img src="/Assets/menuIcon.png" style="width: 50px; height: 50px; left: 30px; top: 350px;">
+        </div>
+
+        <h1 id="winningTxt" style="color: white; text-align: center; color: #4ffa8f; position: absolute; width: 100%; bottom: -70px; transition: 1s;">You Found Nessie!</h1>
+
+        <!-- <div style="width: 50vw; height: 10vh; background-color: white; position: absolute; bottom: 0px;">
+
+        </div> -->
+    </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+<script type="module" src="index.js"></script>
+<script type="module">
+    import {getData} from './index.js'
+
+    async function getImages()
+    {
+        const Games = await getData()
+        startGame(Games)
+    }
+
+    getImages()
+
+</script>
+<script>
+    
+    var latestGames;
+
+    var imageURL = ''
+    var imageTargetLocation = [] // x,y,radius
+
+    function startGame(games)
+    {
+        document.getElementById('mainImage').style.border ='solid #2E323E 10px'
+        console.log(games)
+
+        latestGames = games
+        
+        const l = Cookies.get('level')
+
+        if(l != undefined)
+        {
+            console.log('loading level '+l+' specificly')
+            var levelIndex = JSON.parse(l)
+            Cookies.remove('level')
+        }else{
+            var max = games.length - 1
+            var min = 0
+            var levelIndex = Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+
+        console.log('image: ' + levelIndex)
+        console.log(games[levelIndex])
+
+        document.getElementById('mainImage').src = games[levelIndex].imageURL
+        imageTargetLocation = games[levelIndex].target
+
+        document.getElementById('mainImage').style.width = '1050px'
+        document.getElementById('mainImage').style.height = '600px'
+
+    }
+
+    function foundNessie()
+    {
+        var audio = new Audio('/Assets/Nsqueek.mp3');
+        audio.play();
+
+        document.getElementById('winningTxt').style.bottom = '130px'
+    }
+
+    function clickLevel(levelNumber)
+    {
+        Cookies.set('level', levelNumber)
+        location.href = '/'
+    }
+
+    function toggleMenu()
+    {
+        if(document.getElementById('mainImage').style.display != 'none')
+        {
+            document.getElementById('mainImage').style.display = 'none'
+            document.getElementById('parentImage').style.backgroundColor = '#2E323E'
+
+            document.getElementById('levelsMenu').style.display = 'flex'
+
+            document.getElementById('levelsMenu').innerHTML = ''
+
+            for (gInd in latestGames)
+            {
+                const g = latestGames[gInd]
+
+                const levelNumber = gInd 
+
+                const e = document.createElement('div')
+                e.setAttribute('class', 'levelBtn')
+                e.setAttribute('title', 'menu')
+                e.setAttribute('onclick', 'clickLevel('+levelNumber+')')
+                e.style = 'width: 75px; height: 75px; border-radius: 20px; cursor: pointer; margin-left: 20px; margin-top: 20px;'
+                e.innerHTML = '<h1 style="color: white; text-align: center;">'+levelNumber+'</h1>'
+                document.getElementById('levelsMenu').appendChild(e)
+            }
+
+        }else{
+            document.getElementById('mainImage').style.display = 'flex'
+            document.getElementById('parentImage').style.backgroundColor = 'none'
+
+            document.getElementById('levelsMenu').style.display = 'none'
+        }
+    }
+
+
+    function trackMousePos()
+    {
+        addEventListener('mousedown', (event)=>{
+            
+            const radius = imageTargetLocation[2]
+            
+            if((event.clientX - document.getElementById('mainImage').offsetLeft) - imageTargetLocation[0] < radius && (event.clientX - document.getElementById('mainImage').offsetLeft) - imageTargetLocation[0] > -radius + (radius))
+            {
+                if((event.clientY - document.getElementById('mainImage').offsetTop) - imageTargetLocation[1] < radius && (event.clientY - document.getElementById('mainImage').offsetTop) - imageTargetLocation[1] > -radius + (radius))
+                {
+                    console.log(event.clientX + ' ' + event.clientY)
+                    console.log('relative: ')
+                    console.log(event.clientX - document.getElementById('mainImage').offsetTop + ' ' + event.clientY - document.getElementById('mainImage').offsetTop)
+                    console.log('Nessie!')
+                    foundNessie()
+                }
+            }
+        })
+    }
+    trackMousePos()
+
+
+</script>
+</html>
+
+<style>
+    body{
+        background-color: #1D2029;
+        font-family: sans-serif;
+        overflow: hidden;
+    }
+    .sideBtns{
+        background-color: #2e323e;
+    }
+    .sideBtns:hover{
+        background-color: #3a4050;
+    }
+
+    .levelBtn{
+        background-color: #3a4050;
+    }
+    .levelBtn:hover{
+        background-color: #454e65;
+    }
+</style>

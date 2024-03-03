@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+</head>
+<body>
+    <h1 style="color: white; font-weight: bold; font-size: 50px; position: absolute; left: 40px;">Welcome Back, <br> Jennifer</h1>
+
+    <div id="inital" style="display: flex; justify-content: center; align-items: center;">
+        <input id="passInp" type="password" placeholder="Enter Password" style="position: absolute; top: 300px; width: 300px; height: 50px; border-radius: 10px; outline: none; border: none; background-color: #2E323E; padding-left: 20px; color: white; font-family: ProximaNovaAltBold;">
+        <div id="checkBtn" style="width: 180px; height: 50px; background-color: #2E323E; border-radius: 20px; position: absolute; top: 400px; cursor: pointer;">
+            <h1 style="color: white; font-size: 18px; text-align: center; margin-top: 13px;">Enter</h1>
+        </div>
+    </div>
+
+    <div id="open" style="display: none;">
+        <div onclick="uploadImage()" style="width: 180px; height: 50px; background-color: #2E323E; border-radius: 20px; position: absolute; top: 200px; cursor: pointer; left: 30px;">
+            <h1 style="color: white; font-size: 18px; text-align: center; margin-top: 13px;">Upload Image</h1>
+        </div>
+
+        <input style="display: none;" type="file" id="fileInp" accept="image/*">
+
+        <div id="imageUploadedDiv" style="display: flex; justify-content: center; height: 100%; display: flex;">
+            <div style="width: 1050px; height: 600px; margin-top: 150px; display: flex; justify-content: center; align-items: center;">
+                <img id="mainImage" src="" style="object-fit: contain; border: solid #2E323E 0px; width: 1050px; height: 600px;">
+            </div>
+            <h1 style="color: white; font-size: 18px; text-align: center; position: absolute; top: 780px;">Click Nessie</h1>
+            <h1 id="radiusDisplay" style="color: white; font-size: 18px; text-align: center; position: absolute; top: 810px;">Radius: 10</h1>
+            <input type="range" min="1" max="100" value="20" class="slider" id="radiusSlider" style="position: absolute; top: 850px;">
+            <div id="uploaddb" style="width: 180px; height: 50px; background-color: #2E323E; border-radius: 20px; position: absolute; top: 900px; cursor: pointer;">
+                <h1 id="txtUploadDb" style="color: white; font-size: 18px; text-align: center; margin-top: 13px;">Upload to db</h1>
+            </div>
+        
+        </div>
+        <div id="tracker" style="width: 20px; height: 20px; background-color: blue; opacity: 0.5; border: #1D2029; border-radius: 20px; position: absolute; top: 0px; left: 0px;">
+    
+        </div>
+    </div>
+
+
+</body>
+<script>
+
+    var radius = 20
+    var targetLocation = [0,0,radius]
+
+    function activate()
+    {
+        console.log('Opening Admin Page')
+        document.getElementById('inital').style.display = 'none'
+        document.getElementById('open').style.display = 'block'
+    }
+    
+    function uploadImage() {
+
+      var input = document.getElementById('fileInp');
+      var image = document.getElementById('mainImage');
+
+      input.click()
+
+      input.onchange = evt => {
+        const [file] = input.files
+        if (file) {
+            document.getElementById('imageUploadedDiv').style.display = 'flex'
+            image.src = URL.createObjectURL(file)
+
+            trackMousePos()
+        }
+        }
+    }
+
+    function initUpload()
+    {
+        const f = document.getElementById('fileInp').files[0]
+    }
+
+
+    function trackMousePos()
+    {
+        addEventListener('mousedown', (event)=>{
+            console.log(event.clientX + ' ' + event.clientY)
+
+
+            if(event.clientX > (window.innerWidth / 2) - 525 && event.clientX < (window.innerWidth /2) + 525)
+            {
+                if(event.clientY > (window.innerHeight / 2) - 300 && event.clientY < (window.innerHeight /2) + 300)
+                {
+                    console.log('inside image')
+                    document.getElementById('tracker').style.left = (event.clientX - (radius / 2)) + 'px'
+                    document.getElementById('tracker').style.top = (event.clientY - (radius / 2)) + 'px'
+                    
+                    var relativeX = event.clientX - document.getElementById('mainImage').offsetLeft
+                    var relativeY = event.clientY - document.getElementById('mainImage').offsetTop
+                    console.log('relative:')
+                    console.log(relativeX + ' ' + relativeY)
+
+                    targetLocation = [relativeX, relativeY, JSON.parse(radius)]
+                }
+            }
+
+        })
+    }
+
+    document.getElementById('radiusSlider').oninput = () => {
+        const r = document.getElementById('radiusSlider').value
+        console.log(r)
+
+        radius =r
+
+        document.getElementById('radiusDisplay').innerHTML = 'Radius: ' + r
+
+        document.getElementById('tracker').style.width = r + 'px'
+        document.getElementById('tracker').style.height = r + 'px'
+    }
+
+</script>
+<script type="module" src="admin.js"></script>
+</html>
+<style>
+    @font-face{
+        font-family: ProximaNovaAltBold;
+        src: url(/Assets/Fonts/Proxima-Nova-Alt-Bold.otf);
+    }
+    body{
+        background-color: #1D2029;
+        font-family: ProximaNovaAltBold;
+    }
+    ::placeholder{
+        color: rgba(255, 255, 255, 0.649);
+        font-family: ProximaNovaAltBold;
+    }
+</style>
