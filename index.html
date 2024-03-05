@@ -47,6 +47,10 @@
             <img src="/Assets/shareArrow.png" style="width: 30px; height: 30px; left: 30px; top: 350px;">
         </div>
 
+        <div title="streak" style="width: 75px; height: 75px; background-color: #4ffa8f; position: absolute; top: 120px; right: 45px; display: flex; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer; z-index: 10;">
+            <h1 id="streakTxt" style="color: black; ">-</h1>
+        </div>
+
         <h1 id="winningTxt" style="color: white; text-align: center; color: #4ffa8f; position: absolute; width: 100%; top: 950px; transition: 1s;">You found Nessie! <span style="color: red;">&#9829;</span>  </h1>
 
         <!-- <div style="width: 50vw; height: 10vh; background-color: white; position: absolute; bottom: 0px;">
@@ -60,7 +64,7 @@
 
                     Here is our Privacy Policy <span onclick="location.href = '/privacypolicy' " style="color: #50ff92; cursor: pointer;">(https://findnessieprivacypolicy)</span> <br> <br>
 
-                    Contact us at sleepycloudsgames@gmail.com
+                    Contact us at <span onclick="location.href = '/sleepycloudsgames@gmail.com' " style="color: #50ff92; cursor: pointer;">sleepycloudsgames@gmail.com</span> <br> <br>
                 </h1>
                 <h1 class="closeTxt" onclick="promptOpen('i')" style="position: absolute; top: -10px; right: 20px; font-family: Jua;">X</h1>
             </div>
@@ -159,6 +163,18 @@
         document.getElementById('mainImage').style.width = '1050px'
         document.getElementById('mainImage').style.height = '600px'
 
+        try{
+
+            var s = Cookies.get('streak')
+            s = JSON.parse(s)
+    
+            document.getElementById('streakTxt').innerHTML = s.length
+        }catch{
+            s = []
+            Cookies.set('streak', '[]')
+
+        }
+
     }
 
     function changeGames(direction)
@@ -189,6 +205,31 @@
         document.getElementById('winningTxt').style.top = '800px'
 
         const timeTillNextRound = 1 // seconds
+
+        var s = Cookies.get('streak')
+        s = JSON.parse(s)
+
+        const currentLevel = document.getElementById('levelTitle').innerHTML.split('Level ')[1]
+
+        var foundLevelInStreak = false
+        for (streakIndex in s)
+        {
+            const streak = s[streakIndex]
+            if(streak == currentLevel)
+            {
+                foundLevelInStreak = true
+                break
+            }
+        }
+        
+        if(foundLevelInStreak == false)
+        {
+            console.log(s)
+            s.push(currentLevel)
+    
+            const stringedStreak = JSON.stringify(s)
+            Cookies.set('streak', stringedStreak)
+        }
 
         setTimeout(() => {
             changeGames('forward')
