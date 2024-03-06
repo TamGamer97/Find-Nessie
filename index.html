@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, 
+user-scalable=yes">
     <title>Nessie Game</title>
 </head>
 <body id="body">
@@ -110,8 +111,9 @@
 </script>
 <script>
 
-    // document.body.style.zoom = "50%"
-    
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
     var latestGames;
 
     var imageURL = ''
@@ -163,8 +165,8 @@
         document.getElementById('mainImage').src = games[levelIndex].imageURL
         imageTargetLocation = games[levelIndex].target
 
-        document.getElementById('mainImage').style.width = '1050px'
-        document.getElementById('mainImage').style.height = '600px'
+        document.getElementById('mainImage').style.width = '1050px' // 1050
+        document.getElementById('mainImage').style.height = '600px' // 600
 
         try{
 
@@ -369,20 +371,34 @@
         }
     }
 
-
     function trackMousePos()
     {
+        let check = false;
+
+        var zoom=1;
+        
+        if(isMobile)
+        {
+            console.log('zooming, detected mobile')
+            zoom = 0.45
+            document.body.style.zoom = zoom
+        }
         addEventListener('mousedown', (event)=>{
             
+            console.log(event.clientX + ' ' + event.clientY) // 600 459 // 1372 458
+
+            var x = event.clientX
+            var y = event.clientY
+
             const radius = imageTargetLocation[2]
             
-            if((event.clientX - document.getElementById('mainImage').offsetLeft) - imageTargetLocation[0] < radius && (event.clientX - document.getElementById('mainImage').offsetLeft) - imageTargetLocation[0] > -radius + (radius))
+            if((x - document.getElementById('mainImage').offsetLeft) - imageTargetLocation[0] < radius && (x - document.getElementById('mainImage').offsetLeft) - imageTargetLocation[0] > -radius + (radius))
             {
-                if((event.clientY - document.getElementById('mainImage').offsetTop) - imageTargetLocation[1] < radius && (event.clientY - document.getElementById('mainImage').offsetTop) - imageTargetLocation[1] > -radius + (radius))
+                if((y - document.getElementById('mainImage').offsetTop) - imageTargetLocation[1] < radius && (y - document.getElementById('mainImage').offsetTop) - imageTargetLocation[1] > -radius + (radius))
                 {
-                    console.log(event.clientX + ' ' + event.clientY)
+                    console.log(x + ' ' + y)
                     console.log('relative: ')
-                    console.log(event.clientX - document.getElementById('mainImage').offsetTop + ' ' + event.clientY - document.getElementById('mainImage').offsetTop)
+                    console.log(x - document.getElementById('mainImage').offsetTop + ' ' + y - document.getElementById('mainImage').offsetTop)
                     console.log('Nessie!')
                     foundNessie()
                 }
@@ -393,20 +409,22 @@
 
             var b = document.getElementById('body').getBoundingClientRect()
 
-            var x = e.touches[0].clientX - b.left;
-            var y = e.touches[0].clientY - b.top;
+            var x = e.touches[0].clientX * (1/zoom);
+            var y = e.touches[0].clientY * (1/zoom);
 
             console.log(x + ' ' + y)
             
             const radius = imageTargetLocation[2]
+
+            console.log('distanec: ' + (x - (document.getElementById('mainImage').offsetLeft) - imageTargetLocation[0]) )
             
-            if((x - document.getElementById('mainImage').offsetLeft) - imageTargetLocation[0] < radius && (x - document.getElementById('mainImage').offsetLeft) - imageTargetLocation[0] > -radius + (radius))
+            if((x - (document.getElementById('mainImage').offsetLeft)) - imageTargetLocation[0] < radius && (x - (document.getElementById('mainImage').offsetLeft)) - imageTargetLocation[0] > -radius + (radius))
             {
-                if((y - document.getElementById('mainImage').offsetTop) - imageTargetLocation[1] < radius && (y - document.getElementById('mainImage').offsetTop) - imageTargetLocation[1] > -radius + (radius))
+                if((y - (document.getElementById('mainImage').offsetTop)) - imageTargetLocation[1] < radius && (y - (document.getElementById('mainImage').offsetTop)) - imageTargetLocation[1] > -radius + (radius))
                 {
                     console.log(x + ' ' + y)
                     console.log('relative: ')
-                    console.log(x - document.getElementById('mainImage').offsetTop + ' ' + y - document.getElementById('mainImage').offsetTop)
+                    console.log(x - (document.getElementById('mainImage').offsetTop) + ' ' + y - (document.getElementById('mainImage').offsetTop))
                     console.log('Nessie!')
                     foundNessie()
                 }
