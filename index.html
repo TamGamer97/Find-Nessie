@@ -53,7 +53,7 @@ user-scalable=yes">
             <img src="/Assets/streakIcon.png" style="width: 40px; height: 40px;">
         </div>
 
-        <h1 id="winningTxt" style="color: white; visibility: hidden; text-align: center; color: #4ffa8f; position: absolute; width: 100%; top: 950px; transition: 1s;">You found Nessie! <span style="color: red;">&#9829;</span>  </h1>
+        <h1 id="winningTxt" style="color: white; background-color: #2e323e; visibility: hidden; padding: 10px; border-radius: 10px; text-align: center; color: #4ffa8f; border: solid #4ffa8f 2px; position: absolute; width: 310px; height: 40px; top: 950px; transition: 1s; font-family: Jua; font-weight: 500;">You found Nessie! <span style="color: red;">&#9829;</span>  </h1>
 
         <!-- <div style="width: 50vw; height: 10vh; background-color: white; position: absolute; bottom: 0px;">
 
@@ -118,6 +118,8 @@ user-scalable=yes">
 
     var imageURL = ''
     var imageTargetLocation = [] // x,y,radius
+
+    document.getElementById('winningTxt').style.left = (window.innerWidth / 2) - 155 + 'px'
 
     function startGame(games)
     {
@@ -214,7 +216,12 @@ user-scalable=yes">
         audio.play();
 
         document.getElementById('winningTxt').style.visibility = 'visible'
-        document.getElementById('winningTxt').style.top = '800px'
+        if(isMobile)
+        {
+            document.getElementById('winningTxt').style.top = '600px'
+        }else{
+            document.getElementById('winningTxt').style.top = '800px'
+        }
 
         const timeTillNextRound = 1 // seconds
 
