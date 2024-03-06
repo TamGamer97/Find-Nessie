@@ -60,7 +60,7 @@ user-scalable=yes">
         </div> -->
 
         <div id="promptContainer" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; position: absolute; top: 0px; left: 0px; z-index: -1;">
-            <div id="iPrompt" style="width: 750px; height: 250px; border-radius: 20px; background-color: #2E323E; border: solid #50ff92 2px; position: absolute; bottom: -300px; display: flex; justify-content: center; align-items: center; transition: 1s;">
+            <div id="iPrompt" style="width: 750px; height: 250px; border-radius: 20px; background-color: #2E323E; border: solid #50ff92 2px; position: absolute; bottom: -300px; display: flex; justify-content: center; align-items: center; transition: 1s; visibility: hidden;">
                 <h1 style="color: white; font-family: Jua; font-weight: 100; text-align: center; font-size: 25px;">
                     A game for nessie lovers! <br><br>
 
@@ -70,7 +70,7 @@ user-scalable=yes">
                 </h1>
                 <h1 class="closeTxt" onclick="promptOpen('i')" style="position: absolute; top: -10px; right: 20px; font-family: Jua;">X</h1>
             </div>
-            <div id="?Prompt" style="width: 750px; height: 300px; border-radius: 20px; background-color: #2E323E; border: solid #50ff92 2px; position: absolute; bottom: -350px; display: flex; justify-content: center; align-items: center; transition: 1s;">
+            <div id="?Prompt" style="width: 750px; height: 300px; border-radius: 20px; background-color: #2E323E; border: solid #50ff92 2px; position: absolute; bottom: -350px; display: flex; justify-content: center; align-items: center; transition: 1s; visibility: hidden;">
                 <h1 style="color: white; font-family: Jua; font-weight: 100; text-align: center; font-size: 25px;">
                     Instructions: <br> <br>
     
@@ -82,7 +82,7 @@ user-scalable=yes">
                 </h1>
                 <h1 class="closeTxt" onclick="promptOpen('?')" style="position: absolute; top: -10px; right: 20px; font-family: Jua;">X</h1>
             </div>
-            <div id="sharePrompt" style="width: 750px; height: 50px; border-radius: 20px; background-color: #2E323E; border: solid #50ff92 2px; position: absolute; bottom: -60px; display: flex; justify-content: center; align-items: center; transition: 0.2s;">
+            <div id="sharePrompt" style="width: 750px; height: 50px; border-radius: 20px; background-color: #2E323E; border: solid #50ff92 2px; position: absolute; bottom: -60px; display: flex; justify-content: center; align-items: center; transition: 0.2s; visibility: hidden;">
                 <h1 style="color: white; font-family: Jua; font-weight: 100; text-align: center; font-size: 25px;">
                     Copied to clipboard
                 </h1>
@@ -125,7 +125,7 @@ user-scalable=yes">
     }else{
         document.getElementById('winningTxt').style.left = (window.innerWidth / 2) - 155 + 'px'
     }
-
+    
     function startGame(games)
     {
         document.getElementById('mainImage').style.border ='solid #2E323E 10px'
