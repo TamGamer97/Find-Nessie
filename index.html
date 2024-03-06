@@ -119,7 +119,12 @@ user-scalable=yes">
     var imageURL = ''
     var imageTargetLocation = [] // x,y,radius
 
-    document.getElementById('winningTxt').style.left = (window.innerWidth / 2) - 155 + 'px'
+    if(isMobile)
+    {
+        document.getElementById('winningTxt').style.left = (window.innerHeight / 2) - 155 + 'px'
+    }else{
+        document.getElementById('winningTxt').style.left = (window.innerWidth / 2) - 155 + 'px'
+    }
 
     function startGame(games)
     {
