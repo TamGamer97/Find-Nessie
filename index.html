@@ -382,6 +382,7 @@ user-scalable=yes">
             console.log('zooming, detected mobile')
             zoom = 0.45
             document.body.style.zoom = zoom
+            screen.orientation.lock('landscape');
         }
         addEventListener('mousedown', (event)=>{
             
