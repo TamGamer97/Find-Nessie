@@ -53,7 +53,7 @@ user-scalable=yes">
             <img src="/Assets/streakIcon.png" style="width: 40px; height: 40px;">
         </div>
 
-        <h1 id="winningTxt" style="color: white; text-align: center; color: #4ffa8f; position: absolute; width: 100%; top: 950px; transition: 1s;">You found Nessie! <span style="color: red;">&#9829;</span>  </h1>
+        <h1 id="winningTxt" style="color: white; visibility: hidden; text-align: center; color: #4ffa8f; position: absolute; width: 100%; top: 950px; transition: 1s;">You found Nessie! <span style="color: red;">&#9829;</span>  </h1>
 
         <!-- <div style="width: 50vw; height: 10vh; background-color: white; position: absolute; bottom: 0px;">
 
@@ -213,6 +213,7 @@ user-scalable=yes">
         var audio = new Audio('/Assets/Nsqueek.mp3');
         audio.play();
 
+        document.getElementById('winningTxt').style.visibility = 'visible'
         document.getElementById('winningTxt').style.top = '800px'
 
         const timeTillNextRound = 1 // seconds
@@ -255,6 +256,7 @@ user-scalable=yes">
         {
             if(document.getElementById('sharePrompt').style.bottom == '-60px')
             {
+                document.getElementById('sharePrompt').style.visibility = 'visible'
                 document.getElementById('sharePrompt').style.bottom = '30px'
 
                 const copyContent = async () => {
@@ -269,6 +271,7 @@ user-scalable=yes">
                 copyContent()
 
                 setTimeout(() => {
+                    document.getElementById('sharePrompt').style.visibility = 'hidden'
                     document.getElementById('sharePrompt').style.bottom = '-60px'
                     setTimeout(() => {
                     }, 1000);
@@ -292,6 +295,7 @@ user-scalable=yes">
         {
             if(document.getElementById('iPrompt').style.bottom == '-300px')
             {
+                document.getElementById('iPrompt').style.visibility = 'visible'
                 document.getElementById('iPrompt').style.bottom =(window.innerHeight / 2)-125 + 'px'
                 document.getElementById('promptContainer').style.zIndex = 1
                 promptIsActive = type
@@ -299,6 +303,7 @@ user-scalable=yes">
                 document.getElementById('iPrompt').style.bottom = '-300px'
                 promptIsAnim = true
                 setTimeout(() => {
+                    document.getElementById('iPrompt').style.visibility = 'hidden'
                     document.getElementById('promptContainer').style.zIndex = -1
                     promptIsAnim = false
                     promptIsActive = ''
@@ -309,6 +314,7 @@ user-scalable=yes">
         {
             if(document.getElementById('?Prompt').style.bottom == '-350px')
             {
+                document.getElementById('?Prompt').style.visibility = 'visible'
                 document.getElementById('?Prompt').style.bottom =(window.innerHeight / 2)-150 + 'px'
                 document.getElementById('promptContainer').style.zIndex = 1
                 promptIsActive = type
@@ -316,6 +322,7 @@ user-scalable=yes">
                 document.getElementById('?Prompt').style.bottom = '-350px'
                 promptIsAnim = true
                 setTimeout(() => {
+                    document.getElementById('?Prompt').style.visibility = 'hidden'
                     document.getElementById('promptContainer').style.zIndex = -1
                     promptIsAnim = false
                     promptIsActive = ''
