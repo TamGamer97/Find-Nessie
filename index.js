@@ -22,3 +22,15 @@ export async function getData()
 }
 // getData()
 
+
+// Mobile support
+// tell her that its only 1920x1080 images allowed
+// Add Share, I and ? btn  -- DONE
+// before and next level button  -- DONE
+// automaticly next level -- DONE
+// You found nessie text fix it going to high, add lowercase f and heart -- DONE
+// streaks
+
+// fire next to streaks -- DONE
+// buttons on one row -- DONE
+// dont automaticly go next level -- DONE

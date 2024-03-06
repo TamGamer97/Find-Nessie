@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nessie Game</title>
 </head>
-<body>
+<body id="body">
 
     
     <div style="display: flex; justify-content: center; height: 100%;">
@@ -35,20 +35,21 @@
             <img src="/Assets/menuIcon.png" style="width: 50px; height: 50px; left: 30px; top: 350px;">
         </div>
 
-        <div class="sideBtns" title="Information" onclick="promptOpen('i')" style="width: 75px; height: 75px; position: absolute; top: 30px; right: 225px; display: flex; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer; z-index: 10;">
+        <div class="sideBtns" title="Information" onclick="promptOpen('i')" style="width: 75px; height: 75px; position: absolute; top: 30px; right: 375px; display: flex; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer; z-index: 10;">
             <img src="/Assets/InformationIcon.png" style="width: 30px; height: 30px; left: 30px; top: 350px;">
         </div>
         
-        <div class="sideBtns" title="How to play" onclick="promptOpen('?')" style="width: 75px; height: 75px; position: absolute; top: 30px; right: 135px; display: flex; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer; z-index: 10;">
+        <div class="sideBtns" title="How to play" onclick="promptOpen('?')" style="width: 75px; height: 75px; position: absolute; top: 30px; right: 290px; display: flex; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer; z-index: 10;">
             <img src="/Assets/questionmarkIcon.png" style="width: 30px; height: 30px; left: 30px; top: 350px;">
         </div>
 
-        <div class="sideBtns" title="Share" onclick="promptOpen('shared')" style="width: 75px; height: 75px; position: absolute; top: 30px; right: 45px; display: flex; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer; z-index: 10;">
+        <div class="sideBtns" title="Share" onclick="promptOpen('shared')" style="width: 75px; height: 75px; position: absolute; top: 30px; right: 205px; display: flex; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer; z-index: 10;">
             <img src="/Assets/shareArrow.png" style="width: 30px; height: 30px; left: 30px; top: 350px;">
         </div>
 
-        <div title="streak" style="width: 75px; height: 75px; background-color: #4ffa8f; position: absolute; top: 120px; right: 45px; display: flex; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer; z-index: 10;">
-            <h1 id="streakTxt" style="color: black; ">-</h1>
+        <div title="streak" id="streakBtn" style="width: 140px; height: 75px; background-color: #4ffa8f; position: absolute; top: 30px; right: 45px; display: flex; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer; z-index: 10;">
+            <h1 id="streakTxt" style="color: black; margin-left: 15px; ">-</h1>
+            <img src="/Assets/streakIcon.png" style="width: 40px; height: 40px;">
         </div>
 
         <h1 id="winningTxt" style="color: white; text-align: center; color: #4ffa8f; position: absolute; width: 100%; top: 950px; transition: 1s;">You found Nessie! <span style="color: red;">&#9829;</span>  </h1>
@@ -108,6 +109,8 @@
 
 </script>
 <script>
+
+    document.body.style.zoom = "50%"
     
     var latestGames;
 
@@ -169,9 +172,15 @@
             s = JSON.parse(s)
     
             document.getElementById('streakTxt').innerHTML = s.length
+
+            if(s.length == 0)
+            {
+                document.getElementById('streakBtn').style.display = 'none'
+            }
         }catch{
             s = []
             Cookies.set('streak', '[]')
+
 
         }
 
@@ -231,9 +240,9 @@
             Cookies.set('streak', stringedStreak)
         }
 
-        setTimeout(() => {
-            changeGames('forward')
-        }, timeTillNextRound*1000);
+        // setTimeout(() => {
+        //     changeGames('forward')
+        // }, timeTillNextRound*1000);
     }
 
     var promptIsAnim = false;
@@ -374,6 +383,30 @@
                     console.log(event.clientX + ' ' + event.clientY)
                     console.log('relative: ')
                     console.log(event.clientX - document.getElementById('mainImage').offsetTop + ' ' + event.clientY - document.getElementById('mainImage').offsetTop)
+                    console.log('Nessie!')
+                    foundNessie()
+                }
+            }
+        })
+
+        document.getElementById('body').addEventListener('touchstart', (e)=>{
+
+            var b = document.getElementById('body').getBoundingClientRect()
+
+            var x = e.touches[0].clientX - b.left;
+            var y = e.touches[0].clientY - b.top;
+
+            console.log(x + ' ' + y)
+            
+            const radius = imageTargetLocation[2]
+            
+            if((x - document.getElementById('mainImage').offsetLeft) - imageTargetLocation[0] < radius && (x - document.getElementById('mainImage').offsetLeft) - imageTargetLocation[0] > -radius + (radius))
+            {
+                if((y - document.getElementById('mainImage').offsetTop) - imageTargetLocation[1] < radius && (y - document.getElementById('mainImage').offsetTop) - imageTargetLocation[1] > -radius + (radius))
+                {
+                    console.log(x + ' ' + y)
+                    console.log('relative: ')
+                    console.log(x - document.getElementById('mainImage').offsetTop + ' ' + y - document.getElementById('mainImage').offsetTop)
                     console.log('Nessie!')
                     foundNessie()
                 }
