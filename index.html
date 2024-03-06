@@ -384,6 +384,7 @@ user-scalable=yes">
             document.body.style.zoom = zoom
             screen.orientation.lock('landscape');
         }
+        document.getElementById('body').requestFullscreen()
         addEventListener('mousedown', (event)=>{
             
             console.log(event.clientX + ' ' + event.clientY) // 600 459 // 1372 458
