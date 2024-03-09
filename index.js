@@ -17,20 +17,22 @@ export async function getData()
         }
         if(data)
         {
+            data.sort((a, b) => a.index - b.index);
             return data
         }
 }
 // getData()
 
 
-// Mobile support
-// tell her that its only 1920x1080 images allowed
+// Mobile support - DONE
+// 1920x1080 images allowed - DONE
 // Add Share, I and ? btn  -- DONE
 // before and next level button  -- DONE
 // automaticly next level -- DONE
 // You found nessie text fix it going to high, add lowercase f and heart -- DONE
-// streaks
+// streaks - DONE
 
 // fire next to streaks -- DONE
 // buttons on one row -- DONE
 // dont automaticly go next level -- DONE
+// Full screen on mobile and turn horizontal message

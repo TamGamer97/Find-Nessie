@@ -21,7 +21,7 @@ user-scalable=yes">
             </div>
             <img id="mainImage" src="/Assets/blackLoading.gif" style="object-fit: cover; border: solid #2E323E 0px; margin-top: 30px;">
             
-            <div id="levelsMenu" style="display: none; width: 1050px; height: 600px; flex-direction: row; flex-wrap: wrap;">
+            <div id="levelsMenu" style="display: none; width: 1050px; height: 600px; flex-direction: row; flex-wrap: wrap; align-items: stretch; justify-content: flex-start; align-self: auto; align-content: stretch;">
                 <!-- <div class="levelBtn" title="menu" onclick="toggleMenu()" style="width: 75px; height: 75px; border-radius: 20px; cursor: pointer; margin-left: 20px; margin-top: 20px;">
                     <h1 style="color: white; text-align: center;">1</h1>
                 </div> -->
@@ -61,13 +61,16 @@ user-scalable=yes">
         </div> -->
 
         <div id="promptContainer" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; position: absolute; top: 0px; left: 0px; z-index: -1;">
-            <div id="iPrompt" style="width: 750px; height: 250px; border-radius: 20px; background-color: #2E323E; border: solid #50ff92 2px; position: absolute; bottom: -300px; display: flex; justify-content: center; align-items: center; transition: 1s; visibility: hidden;">
+            <div id="iPrompt" style="width: 750px; height: 350px; border-radius: 20px; background-color: #2E323E; border: solid #50ff92 2px; position: absolute; bottom: -360px; display: flex; justify-content: center; align-items: center; transition: 1s; visibility: hidden;">
                 <h1 style="color: white; font-family: Jua; font-weight: 100; text-align: center; font-size: 25px;">
                     A game for nessie lovers! <br><br>
 
-                    Here is our Privacy Policy <span onclick="location.href = '/privacypolicy' " style="color: #50ff92; cursor: pointer;">(https://findnessieprivacypolicy)</span> <br> <br>
+                    Here is our Privacy and Cookie Policy <br> <span onclick=" window.open('/Policies/Privacy-Policy.pdf', '_blank') " style="color: #50ff92; cursor: pointer;">Privacy Policy</span> <span onclick="window.open('/Policies/Cookie-Policy.pdf', '_blank') " style="color: #50ff92; cursor: pointer;">Cookie Policy</span> <br> <br>
 
-                    Contact us at <span onclick="location.href = '/sleepycloudsgames@gmail.com' " style="color: #50ff92; cursor: pointer;">sleepycloudsgames@gmail.com</span> <br> <br>
+                    Do you want to submit your own art? Questions or suggestions? Contact us at <span style="color: #50ff92; cursor: pointer;">sleepycloudsgames@gmail.com</span> <br> <br>
+                    
+                    Do you want to support us? Show your support at <br> <span onclick="window.open('https://ko-fi.com/cloudygamesmage', '_blank') " style="color: #50ff92; cursor: pointer;">https://ko-fi.com/cloudygamesmage</span>
+                    
                 </h1>
                 <h1 class="closeTxt" onclick="promptOpen('i')" style="position: absolute; top: -10px; right: 20px; font-family: Jua;">X</h1>
             </div>
@@ -90,16 +93,37 @@ user-scalable=yes">
             </div>
         </div>
 
+        <div id="cookiesPopup" style="position: absolute; display: none; bottom: 10px; right: 10px; width: 420px; height: 210px; border-radius: 10px; background-color: #121212;">
+            <h1 style="color: white; font-size: 23px; margin-left: 20px; margin-top: 20px; font-weight: 600;">We use cookies</h1>
+            <h1 style="color: white; font-size: 14px; margin-left: 20px; margin-top: -10px; font-weight: 400; width: 360px;">We use cookies and other tracking technologies to improve your browsing experience on our website, to show you personalized content and targeted ads, to analyze our website traffic, and to understand where our visitors are coming from.</h1>
+            <div style="display: flex; margin-top: 15px;">
+                <div onclick="toggleCookiesPermission(0)" style="width: 80px; height: 35px; border-radius: 5px; margin-left: 20px; background-color: #585deb; cursor: pointer;">
+                    <h1 style="font-size: 15px; text-align: center; margin-top: 8px;">I agree</h1>
+                </div>
+                <div onclick="toggleCookiesPermission(1)" style="width: 80px; height: 35px; border-radius: 5px; margin-left: 10px; background-color: #585deb; cursor: pointer;">
+                    <h1 style="font-size: 15px; text-align: center; margin-top: 8px;">I decline</h1>
+                </div>
+                <div onclick="toggleCookiesPermission(2)" style="width: 190px; height: 35px; border-radius: 5px; margin-left: 10px; background-color: white; cursor: pointer;">
+                    <h1 style="font-size: 15px; text-align: center; margin-top: 8px;">Change my preferences</h1>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9762342374717320" crossorigin="anonymous"></script>
 
     <div style="position: absolute; top: 0px; left: 0px; z-index: 10;">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9762342374717320" crossorigin="anonymous"></script>
+        <!-- Homepage Leaderboard -->
+        <ins class="adsbygoogle"
+        style="display:inline-block;width:728px;height:90px"
+        data-ad-client="ca-pub-9762342374717320"
+        data-ad-slot="9762342374717320"></ins>
         <script>
-            window.adsbygoogle = window.adsbygoogle || [];
-            const adBreak = adConfig = function(o) {adsbygoogle.push(o);}
-          </script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
     </div>
 
 
@@ -132,6 +156,8 @@ user-scalable=yes">
     var imageURL = ''
     var imageTargetLocation = [] // x,y,radius
 
+    var cookiesAllow = false
+
     if(isMobile)
     {
         document.getElementById('winningTxt').style.left = (window.innerHeight / 2) - 155 + 'px'
@@ -156,7 +182,8 @@ user-scalable=yes">
         }else{
             var max = games.length - 1
             var min = 0
-            var levelIndex = Math.floor(Math.random() * (max - min + 1)) + min;
+            // var levelIndex = Math.floor(Math.random() * (max - min + 1)) + min; random level
+            var levelIndex = games.length - 1
         }
 
         document.getElementById('prevLevTxt').innerHTML = ' &larr;' + (JSON.parse(levelIndex))
@@ -188,22 +215,25 @@ user-scalable=yes">
         document.getElementById('mainImage').style.width = '1050px' // 1050
         document.getElementById('mainImage').style.height = '600px' // 600
 
-        try{
-
-            var s = Cookies.get('streak')
-            s = JSON.parse(s)
+        if(cookiesAllow)
+        {
+            try{
     
-            document.getElementById('streakTxt').innerHTML = s.length
-
-            if(s.length == 0)
-            {
-                document.getElementById('streakBtn').style.display = 'none'
+                var s = Cookies.get('streak')
+                s = JSON.parse(s)
+        
+                document.getElementById('streakTxt').innerHTML = s.length
+    
+                if(s.length == 0)
+                {
+                    document.getElementById('streakBtn').style.display = 'none'
+                }
+            }catch{
+                s = []
+                Cookies.set('streak', '[]')
+    
+    
             }
-        }catch{
-            s = []
-            Cookies.set('streak', '[]')
-
-
         }
 
     }
@@ -238,29 +268,33 @@ user-scalable=yes">
 
         const timeTillNextRound = 1 // seconds
 
-        var s = Cookies.get('streak')
-        s = JSON.parse(s)
-
-        const currentLevel = document.getElementById('levelTitle').innerHTML.split('Level ')[1]
-
-        var foundLevelInStreak = false
-        for (streakIndex in s)
-        {
-            const streak = s[streakIndex]
-            if(streak == currentLevel)
-            {
-                foundLevelInStreak = true
-                break
-            }
-        }
         
-        if(foundLevelInStreak == false)
+        const currentLevel = document.getElementById('levelTitle').innerHTML.split('Level ')[1]
+        
+        if(cookiesAllow)
         {
-            console.log(s)
-            s.push(currentLevel)
+            var s = Cookies.get('streak')
+            s = JSON.parse(s)
     
-            const stringedStreak = JSON.stringify(s)
-            Cookies.set('streak', stringedStreak)
+            var foundLevelInStreak = false
+            for (streakIndex in s)
+            {
+                const streak = s[streakIndex]
+                if(streak == currentLevel)
+                {
+                    foundLevelInStreak = true
+                    break
+                }
+            }
+            
+            if(foundLevelInStreak == false)
+            {
+                console.log(s)
+                s.push(currentLevel)
+        
+                const stringedStreak = JSON.stringify(s)
+                Cookies.set('streak', stringedStreak)
+            }
         }
 
         // setTimeout(() => {
@@ -313,14 +347,14 @@ user-scalable=yes">
 
         if(type == 'i')
         {
-            if(document.getElementById('iPrompt').style.bottom == '-300px')
+            if(document.getElementById('iPrompt').style.bottom == '-360px')
             {
                 document.getElementById('iPrompt').style.visibility = 'visible'
                 document.getElementById('iPrompt').style.bottom =(window.innerHeight / 2)-125 + 'px'
                 document.getElementById('promptContainer').style.zIndex = 1
                 promptIsActive = type
             }else{
-                document.getElementById('iPrompt').style.bottom = '-300px'
+                document.getElementById('iPrompt').style.bottom = '-360px'
                 promptIsAnim = true
                 setTimeout(() => {
                     document.getElementById('iPrompt').style.visibility = 'hidden'
@@ -357,6 +391,41 @@ user-scalable=yes">
         location.href = '/'
     }
 
+    function handleCookiePopup()
+    {
+        const ce = Cookies.get('cookiesEnabled')
+        if(ce == undefined)
+        {
+            // show label
+            document.getElementById('cookiesPopup').style.display = 'block'
+        }
+
+        if(ce == 'true')
+        {
+            cookiesAllow = true
+        }
+
+
+    }
+    handleCookiePopup()
+
+    function toggleCookiesPermission(btnNo)
+    {
+        document.getElementById('cookiesPopup').style.display = 'none'
+        if(btnNo == 0)
+        {
+            Cookies.set('cookiesEnabled', 'true')
+        }
+        if(btnNo == 1)
+        {
+            Cookies.set('cookiesEnabled', 'false')
+        }
+        if(btnNo == 2)
+        {
+            window.open('https://support.google.com/accounts/answer/61416?hl=en&co=GENIE.Platform%3DDesktop', '_blank')
+        }
+    }
+
     function toggleMenu()
     {
         if(document.getElementById('mainImage').style.display != 'none')
@@ -370,6 +439,7 @@ user-scalable=yes">
 
             document.getElementById('txtHeadersContainer').style.display = 'none'
             
+            
 
             for (gInd in latestGames)
             {
@@ -377,11 +447,22 @@ user-scalable=yes">
 
                 const levelNumber = gInd 
 
+                // var leftAmount = (10 * (gInd + 1)) + 250
+                // var topAmount = 170
+
+                // if(gInd >= 10) // 11th item in the display
+                // {
+                //     leftAmount = (10 * (gInd-10 + 1)) + 250
+                //     topAmount = 250
+                // }
+                
+                // console.log(gInd + ' ' + leftAmount)
+
                 const e = document.createElement('div')
                 e.setAttribute('class', 'levelBtn')
                 e.setAttribute('title', 'menu')
                 e.setAttribute('onclick', 'clickLevel('+levelNumber+')')
-                e.style = 'width: 75px; height: 75px; border-radius: 20px; cursor: pointer; margin-left: 20px; margin-top: 20px;'
+                e.style = 'width: 75px; height: 75px; border-radius: 20px; cursor: pointer; margin-left: 15px; margin-top: 20px; position: relative;'
                 e.innerHTML = '<h1 style="color: white; text-align: center;">'+(JSON.parse(levelNumber) + 1)+'</h1>'
                 document.getElementById('levelsMenu').appendChild(e)
             }
