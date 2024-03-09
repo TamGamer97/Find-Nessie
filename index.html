@@ -21,7 +21,7 @@ user-scalable=yes">
             </div>
             <img id="mainImage" src="/Assets/blackLoading.gif" style="object-fit: cover; border: solid #2E323E 0px; margin-top: 30px;">
             
-            <div id="levelsMenu" style="display: none; width: 1050px; height: 600px; flex-direction: row; flex-wrap: wrap; align-items: stretch; justify-content: flex-start; align-self: auto; align-content: stretch;">
+            <div id="levelsMenu" style="display: none; width: 1050px; height: 600px; flex-direction: row; flex-wrap: wrap; justify-content: center; overflow-x: hidden; overflow-y: auto; position: absolute;">
                 <!-- <div class="levelBtn" title="menu" onclick="toggleMenu()" style="width: 75px; height: 75px; border-radius: 20px; cursor: pointer; margin-left: 20px; margin-top: 20px;">
                     <h1 style="color: white; text-align: center;">1</h1>
                 </div> -->
@@ -161,6 +161,12 @@ user-scalable=yes">
     if(isMobile)
     {
         document.getElementById('winningTxt').style.left = (window.innerHeight / 2) - 155 + 'px'
+
+        document.getElementById('body').setAttribute('onclick', "{document.getElementById('body').requestFullscreen(); screen.orientation.lock('landscape'); document.getElementById('body').setAttribute('onclick', '')}" )
+            
+        if(window.innerHeight > window.innerWidth){
+            alert('Rotate device to landscape ')
+        }
     }else{
         document.getElementById('winningTxt').style.left = (window.innerWidth / 2) - 155 + 'px'
     }
@@ -426,46 +432,72 @@ user-scalable=yes">
         }
     }
 
+    var lg = []
     function toggleMenu()
     {
         if(document.getElementById('mainImage').style.display != 'none')
         {
             document.getElementById('mainImage').style.display = 'none'
             document.getElementById('parentImage').style.backgroundColor = '#2E323E'
-
+            
             document.getElementById('levelsMenu').style.display = 'flex'
-
+            
             document.getElementById('levelsMenu').innerHTML = ''
-
+            
             document.getElementById('txtHeadersContainer').style.display = 'none'
-            
-            
-
-            for (gInd in latestGames)
+            if(lg.length == 0)
             {
-                const g = latestGames[gInd]
-
-                const levelNumber = gInd 
-
-                // var leftAmount = (10 * (gInd + 1)) + 250
-                // var topAmount = 170
-
-                // if(gInd >= 10) // 11th item in the display
-                // {
-                //     leftAmount = (10 * (gInd-10 + 1)) + 250
-                //     topAmount = 250
-                // }
+                lg = [...latestGames]
                 
-                // console.log(gInd + ' ' + leftAmount)
+                c=0
+                while (c<22)
+                {
+                    lg.unshift(['placeholder'])
+                    c++
+                }
+    
+                newItemsAmount = 100 - (lg.length -22)
+    
+                if(newItemsAmount > 0)
+                {
+                    c=0
+                    while (c<newItemsAmount)
+                    {
+                        lg.push(['placeholder'])
+                        c++
+                    }
+                }
+            }
 
+            console.log(lg.length - 22)
+
+            for (gInd in lg)
+            {
+                const g = lg[gInd]
+
+                const levelNumber = gInd -22
+
+                var topAmount = 0
+
+
+                if(gInd >= 11) // 12th item in the display
+                {
+                    topAmount = -150 + 'px'
+                }
+                
                 const e = document.createElement('div')
                 e.setAttribute('class', 'levelBtn')
                 e.setAttribute('title', 'menu')
                 e.setAttribute('onclick', 'clickLevel('+levelNumber+')')
-                e.style = 'width: 75px; height: 75px; border-radius: 20px; cursor: pointer; margin-left: 15px; margin-top: 20px; position: relative;'
+                e.style = 'width: 75px; height: 75px; border-radius: 20px; cursor: pointer; margin-left: 15px; margin-top: 10px; position: relative; top: ' + topAmount
                 e.innerHTML = '<h1 style="color: white; text-align: center;">'+(JSON.parse(levelNumber) + 1)+'</h1>'
+                if(g[0] == 'placeholder')
+                {
+                    e.style.visibility = 'hidden'
+                }
                 document.getElementById('levelsMenu').appendChild(e)
             }
+
 
         }else{
             document.getElementById('mainImage').style.display = 'flex'
@@ -479,6 +511,8 @@ user-scalable=yes">
         }
     }
 
+
+
     function trackMousePos()
     {
         let check = false;
@@ -490,9 +524,8 @@ user-scalable=yes">
             console.log('zooming, detected mobile')
             zoom = 0.45
             document.body.style.zoom = zoom
-            screen.orientation.lock('landscape');
         }
-        document.getElementById('body').requestFullscreen()
+        
         addEventListener('mousedown', (event)=>{
             
             console.log(event.clientX + ' ' + event.clientY) // 600 459 // 1372 458
@@ -584,4 +617,18 @@ user-scalable=yes">
         color: #50ff92;
         cursor: pointer;
     }
+    *::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #20232b;
+            border-radius: 20px;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: #3a4050;
+            border-radius: 20px;
+            border: transparent;
+        }
 </style>
