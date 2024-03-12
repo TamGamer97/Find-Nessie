@@ -191,7 +191,7 @@ user-scalable=yes">
             var max = games.length - 1
             var min = 0
             // var levelIndex = Math.floor(Math.random() * (max - min + 1)) + min; random level
-            var levelIndex = games.length - 1
+            var levelIndex = games.length - 1 - 1 // 2nd to last game
         }
 
         document.getElementById('prevLevTxt').innerHTML = ' &larr;' + (JSON.parse(levelIndex))
