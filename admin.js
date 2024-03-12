@@ -65,7 +65,7 @@ async function uploadtodb()
     const f = document.getElementById('fileInp').files[0]
     const r = radius
     const t = targetLocation
-    const indexOfLevel = (await (getImages())).length
+    const indexOfLevel = ((await (getImages())).length) + 1
 
 
     var timestamp = new Date().valueOf()
